@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/demo_topic4
+    username: postgres
+    password: hung2712
+  jpa:
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+        hibernate.jdbc.lob.non_contextual_creation: true
