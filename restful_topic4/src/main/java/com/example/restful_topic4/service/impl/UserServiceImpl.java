@@ -8,14 +8,11 @@ import com.example.restful_topic4.model.User;
 import com.example.restful_topic4.repo.UserRepo;
 import com.example.restful_topic4.request.SignUpReq;
 import com.example.restful_topic4.service.interfaces.UserService;
-import org.hibernate.annotations.CurrentTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,11 +20,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService<UserDTO> {
 
-    @Autowired
-    private UserRepo repo;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    UserRepo repo;
+    PasswordEncoder passwordEncoder;
 
+    public UserServiceImpl(UserRepo repo, PasswordEncoder passwordEncoder) {
+        this.repo = repo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public List<UserDTO> getAll() {
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService<UserDTO> {
         newUser.setEmail(user.getEmail());
         newUser.setUsername(user.getUsername());
         newUser.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-        newUser.setStatus(UserStatus.ACTIVED);
+        newUser.setStatus(UserStatus.ACTIVE);
 
         return UserMapper.MAPPER.mapToDTO(repo.save(newUser));
     }

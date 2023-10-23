@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.UUID;
+
 @ControllerAdvice
 public class UserNotFoundAdvice {
     @ResponseBody
@@ -16,3 +18,4 @@ public class UserNotFoundAdvice {
         return ex.getMessage();
     }
 }
+

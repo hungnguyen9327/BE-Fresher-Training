@@ -43,9 +43,10 @@ public class UserServiceImpl implements UserService<UserDTO> {
 //        User user = mongoTemplate.findOne(query, User.class);
         Optional<User> optional = repo.findById(id);
         try {
-            User user = optional.orElseThrow(() -> new NoSuchElementException("User not found"));
+            User user = optional.orElseThrow(() -> new NotFoundException("user", id));
             return modelMapper.map(user, UserDTO.class);
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -80,8 +81,6 @@ public class UserServiceImpl implements UserService<UserDTO> {
             throw new MappingException("user");
         } catch (NullPointerException e) {
             throw new NullPointerException();
-        } catch (Exception e) {
-            return null;
         }
     }
 
@@ -99,8 +98,6 @@ public class UserServiceImpl implements UserService<UserDTO> {
             throw new MappingException("user");
         } catch (NullPointerException e) {
             throw new NullPointerException();
-        } catch (Exception e) {
-            return null;
         }
     }
 

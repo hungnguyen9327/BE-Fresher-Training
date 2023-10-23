@@ -15,13 +15,13 @@ import java.util.UUID;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserService<UserDTO> userService;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         try {
             return new ResponseEntity<List<UserDTO>>(userService.getAll(), HttpStatus.OK);
@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<?> newUser(@RequestBody UserDTO user) throws URISyntaxException {
         UserDTO result = userService.addUser(user);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> replaceUser(
             @PathVariable("id") UUID id,
             @RequestBody UserDTO user
@@ -60,8 +60,8 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PatchMapping("/update-status/{id}")
-    public ResponseEntity<?> updateUserStt(
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateUserStatus(
             @PathVariable("id") UUID id,
             @RequestBody UserStatus stt
     ) throws URISyntaxException {
@@ -71,7 +71,7 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") UUID id) throws URISyntaxException {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

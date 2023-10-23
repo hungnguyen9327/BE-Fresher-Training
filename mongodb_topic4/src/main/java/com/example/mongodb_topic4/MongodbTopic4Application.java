@@ -15,21 +15,7 @@ import java.util.Optional;
 @SpringBootApplication
 @EnableMongoAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
 public class MongodbTopic4Application {
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean(name = "auditingDateTimeProvider")
-    public DateTimeProvider dateTimeProvider() {
-        return () -> Optional.of(OffsetDateTime.now());
-    }
-
+    
     public static void main(String[] args) {
         SpringApplication.run(MongodbTopic4Application.class, args);
     }
