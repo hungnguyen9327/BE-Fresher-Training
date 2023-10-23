@@ -24,22 +24,23 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "roles")
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private int id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false, unique = true)
+  private int id;
+  
+  @Column(name = "name", nullable = false)
+  private String name;
 
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdAt;
+  @Column(name = "created_at", nullable = false)
+  @CreationTimestamp
+  private Timestamp createdAt;
 
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
+  @Column(name = "updated_at")
+  private Timestamp updatedAt;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+  @JsonIgnore
+  @ManyToMany(mappedBy = "roles")
+  private Set<User> users = new HashSet<>();
 }

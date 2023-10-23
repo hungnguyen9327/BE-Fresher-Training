@@ -30,44 +30,44 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        }
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+    }
 )
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false, unique = true)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "id", nullable = false, unique = true)
+  private UUID id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+  @Column(name = "username", nullable = false)
+  private String username;
+  
+  @Column(name = "email", nullable = false)
+  private String email;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+  @Column(name = "password", nullable = false)
+  private String password;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status", nullable = false)
+  private UserStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private UserStatus status;
+  @Column(name = "created_at", nullable = false)
+  @CreationTimestamp
+  private Timestamp createdAt;
 
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdAt;
+  @Column(name = "updated_at")
+  private Timestamp updatedAt;
 
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "user_roles",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id")
+  )
+  private Set<Role> roles = new HashSet<>();
 
 }

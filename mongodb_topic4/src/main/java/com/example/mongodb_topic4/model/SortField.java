@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SortField {
-    ID("id"),
-    USERNAME("name"),
-    EMAIL("email"),
-    STATUS("status");
+  ID("id"),
+  USERNAME("name"),
+  EMAIL("email"),
+  STATUS("status");
 
-    private final String databaseFieldName;
+  private final String databaseFieldName;
 }

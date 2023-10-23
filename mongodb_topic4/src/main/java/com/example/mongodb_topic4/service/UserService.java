@@ -8,17 +8,18 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService<T> {
-    T getById(String id);
 
-    List<T> getAll();
+  T getById(String id);
 
-    Page<T> findAllByPage(Pageable pageable);
+  List<T> getAll();
 
-    T create(SignInReq data);
+  Page<T> findAllByPage(int min, int max, Pageable pageable);
 
-    T update(String id, T data);
+  T create(SignInReq data);
 
-    void remove(String id);
+  T update(String id, T data);
 
-    void delete(String id);
+  void remove(String id);
+
+  void delete(String id);
 }

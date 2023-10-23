@@ -7,19 +7,20 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService<T> {
-    List<T> getAll();
 
-    T getById(UUID id);
+  List<T> getAll();
 
-    T signup(SignUpReq user);
+  T getById(UUID id);
 
-    T addUser(T user);
+  T signup(SignUpReq user);
+  
+  T addUser(T user);
 
-    T replaceUser(UUID id, T user);
+  T replaceUser(UUID id, T user);
 
-    T updateStatus(UUID id, UserStatus status);
+  T updateStatus(UUID id, UserStatus status);
 
-    void delete(UUID id);
+  void delete(UUID id);
 }
 
 

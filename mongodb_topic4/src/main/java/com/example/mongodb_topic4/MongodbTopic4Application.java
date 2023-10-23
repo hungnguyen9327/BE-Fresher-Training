@@ -13,11 +13,9 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @SpringBootApplication
-@EnableMongoAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
 public class MongodbTopic4Application {
-    
-    public static void main(String[] args) {
-        SpringApplication.run(MongodbTopic4Application.class, args);
-    }
 
+  public static void main(String[] args) {
+    SpringApplication.run(MongodbTopic4Application.class, args);
+  }
 }

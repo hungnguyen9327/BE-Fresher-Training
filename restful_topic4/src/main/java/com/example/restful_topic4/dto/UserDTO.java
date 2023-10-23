@@ -15,17 +15,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private UUID id;
 
-    private String username;
+  private UUID id;
 
-    private String email;
+  private String username;
 
-    private UserStatus status;
+  private String email;
+  
+  private UserStatus status;
 
-    private Timestamp createdAt;
+  private Timestamp createdAt;
 
-    private Timestamp updatedAt;
+  private Timestamp updatedAt;
 
-    private Set<Role> roles = new HashSet<>();
+  private Set<Role> roles = new HashSet<>();
 }

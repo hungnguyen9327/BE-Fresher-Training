@@ -18,65 +18,65 @@ import java.util.UUID;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService<UserDTO> userService;
+  @Autowired
+  private UserService<UserDTO> userService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        try {
-            return new ResponseEntity<List<UserDTO>>(userService.getAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+  @GetMapping("/")
+  public ResponseEntity<List<UserDTO>> getAllUsers() {
+    try {
+      return new ResponseEntity<List<UserDTO>>(userService.getAll(), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") UUID id) {
-        try {
-            return new ResponseEntity<UserDTO>(userService.getById(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+  @GetMapping("/{id}")
+  public ResponseEntity<UserDTO> getUserById(@PathVariable("id") UUID id) {
+    try {
+      return new ResponseEntity<UserDTO>(userService.getById(id), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
-    @PostMapping("/")
-    public ResponseEntity<?> newUser(@RequestBody UserDTO user) throws URISyntaxException {
-        UserDTO result = userService.addUser(user);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
+  @PostMapping("/")
+  public ResponseEntity<?> newUser(@RequestBody UserDTO user) throws URISyntaxException {
+    UserDTO result = userService.addUser(user);
+    return new ResponseEntity<>(result, HttpStatus.CREATED);
+  }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signup(@RequestBody SignUpReq user) throws URISyntaxException {
-        UserDTO result = userService.signup(user);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
+  @PostMapping("/sign-up")
+  public ResponseEntity<?> signup(@RequestBody SignUpReq user) throws URISyntaxException {
+    UserDTO result = userService.signup(user);
+    return new ResponseEntity<>(result, HttpStatus.CREATED);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> replaceUser(
-            @PathVariable("id") UUID id,
-            @RequestBody UserDTO user
-    ) throws URISyntaxException {
-        UserDTO result = userService.replaceUser(id, user);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<?> replaceUser(
+      @PathVariable("id") UUID id,
+      @RequestBody UserDTO user
+  ) throws URISyntaxException {
+    UserDTO result = userService.replaceUser(id, user);
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+  
+  @PatchMapping("/{id}/status")
+  public ResponseEntity<?> updateUserStatus(
+      @PathVariable("id") UUID id,
+      @RequestBody UserStatus stt
+  ) throws URISyntaxException {
+    UserDTO tempUser = new UserDTO();
+    tempUser.setStatus(stt);
+    UserDTO result = userService.replaceUser(id, tempUser);
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<?> updateUserStatus(
-            @PathVariable("id") UUID id,
-            @RequestBody UserStatus stt
-    ) throws URISyntaxException {
-        UserDTO tempUser = new UserDTO();
-        tempUser.setStatus(stt);
-        UserDTO result = userService.replaceUser(id, tempUser);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteUser(@PathVariable("id") UUID id) throws URISyntaxException {
+    userService.delete(id);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") UUID id) throws URISyntaxException {
-        userService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    //note........
+  //note........
 
 }

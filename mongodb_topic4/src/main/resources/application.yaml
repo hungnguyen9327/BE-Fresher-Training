@@ -28,3 +28,6 @@ logging:
       ecommerce: DEBUG
     org:
       springframework: INFO
+
+min-page: 0
+max-page: 3
