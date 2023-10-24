@@ -1,14 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    host: localhost
-    port: '5432'
-    database: demo_topic4
-    username: postgres
-    password: hung2712
+    url: 'jdbc:postgresql://localhost:5432/demo_topic4'
+    username: ENC(mI/fau2FNddU1EuJZ7lItjHffbdU2ApQ2ukAFxTvUC7EdsgA3FysLCIXV388A7On)
+    password: ENC(0gQCigHR2uuwiaVaMb++oMoPwXVS/gUfoYitQ6DaO/vWNUj9tPfmXXlQ+H3RjEjB)
   jpa:
     hibernate:
       ddl-auto: update
       properties:
         hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
         hibernate.jdbc.lob.non_contextual_creation: true
+
+jasypt:
+  encryptor:
+    password: jasypt-encrypt-key
