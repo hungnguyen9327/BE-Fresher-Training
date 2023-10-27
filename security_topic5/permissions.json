@@ -1,0 +1,49 @@
+{
+    "_id" : ObjectId("6538cb6713a71f741bd34090"),
+    "name" : "READ",
+    "createdAt" : ISODate("2023-10-25T08:01:43.396+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:01:43.396+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb7713a71f741bd34091"),
+    "name" : "CREATE_USER",
+    "createdAt" : ISODate("2023-10-25T08:01:59.413+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:01:59.413+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb7a13a71f741bd34092"),
+    "name" : "UPDATE_USER",
+    "createdAt" : ISODate("2023-10-25T08:02:02.595+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:02:02.595+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb7d13a71f741bd34093"),
+    "name" : "DELETE_USER",
+    "createdAt" : ISODate("2023-10-25T08:02:05.525+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:02:05.525+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb8013a71f741bd34094"),
+    "name" : "CREATE_ROLE",
+    "createdAt" : ISODate("2023-10-25T08:02:08.898+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:02:08.898+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb8413a71f741bd34095"),
+    "name" : "UPDATE_ROLE",
+    "createdAt" : ISODate("2023-10-25T08:02:12.447+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:02:12.447+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
+{
+    "_id" : ObjectId("6538cb8713a71f741bd34096"),
+    "name" : "DELETE_ROLE",
+    "createdAt" : ISODate("2023-10-25T08:02:15.650+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:02:15.650+0000"),
+    "_class" : "com.example.security_topic5.model.Permission"
+}
