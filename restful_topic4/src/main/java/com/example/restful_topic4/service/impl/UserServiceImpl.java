@@ -7,7 +7,8 @@ import com.example.restful_topic4.mapper.UserMapper;
 import com.example.restful_topic4.model.User;
 import com.example.restful_topic4.repo.UserRepo;
 import com.example.restful_topic4.request.SignUpReq;
-import com.example.restful_topic4.service.interfaces.UserService;
+import com.example.restful_topic4.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +19,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService<UserDTO> {
 
-  UserRepo repo;
-  PasswordEncoder passwordEncoder;
+  private final UserRepo repo;
+  private final PasswordEncoder passwordEncoder;
 
-  public UserServiceImpl(UserRepo repo, PasswordEncoder passwordEncoder) {
-    this.repo = repo;
-    this.passwordEncoder = passwordEncoder;
-  }
-  
   @Override
   public List<UserDTO> getAll() {
     return repo.findAll().stream()

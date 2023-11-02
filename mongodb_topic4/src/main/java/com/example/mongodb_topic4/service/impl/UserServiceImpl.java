@@ -8,6 +8,7 @@ import com.example.mongodb_topic4.model.User;
 import com.example.mongodb_topic4.repo.UserRepo;
 import com.example.mongodb_topic4.request.SignInReq;
 import com.example.mongodb_topic4.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,20 +24,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService<UserDTO> {
 
-  ModelMapper modelMapper;
-  MongoTemplate mongoTemplate;
-  UserRepo repo;
-  PasswordEncoder encode;
-
-  public UserServiceImpl(ModelMapper modelMapper, MongoTemplate mongoTemplate, UserRepo repo,
-      PasswordEncoder encode) {
-    this.modelMapper = modelMapper;
-    this.mongoTemplate = mongoTemplate;
-    this.repo = repo;
-    this.encode = encode;
-  }
+  private final ModelMapper modelMapper;
+  private final MongoTemplate mongoTemplate;
+  private final UserRepo repo;
+  private final PasswordEncoder encode;
 
   @Override
   public UserDTO getById(String id) {
@@ -45,13 +39,8 @@ public class UserServiceImpl implements UserService<UserDTO> {
 //
 //        User user = mongoTemplate.findOne(query, User.class);
     Optional<User> optional = repo.findById(id);
-    try {
-      User user = optional.orElseThrow(() -> new NotFoundException("user", id));
-      return modelMapper.map(user, UserDTO.class);
-    } catch (NotFoundException e) {
-      System.out.println(e.getMessage());
-      return null;
-    }
+    User user = optional.orElseThrow(() -> new NotFoundException("user", id));
+    return modelMapper.map(user, UserDTO.class);
   }
 
   @Override
@@ -63,16 +52,11 @@ public class UserServiceImpl implements UserService<UserDTO> {
   }
 
   @Override
-  public Page<UserDTO> findAllByPage(int min, int max, Pageable pageable) {
+  public Page<UserDTO> getAllByPage(Pageable pageable) {
 //        Query query = new Query().with(pageable);
 //        List<User> users = mongoTemplate.find(query, User.class);
-    Page<UserDTO> pages = repo.findAll(pageable)
+    return repo.findAll(pageable)
         .map(user -> modelMapper.map(user, UserDTO.class));
-    if (pages.getNumber() > max || pages.getNumber() < min) {
-      throw new ExceedPageBoundException();
-    } else {
-      return pages;
-    }
   }
 
   @Override

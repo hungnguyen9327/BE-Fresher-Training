@@ -3,8 +3,8 @@ package com.example.restful_topic4.controller;
 import com.example.restful_topic4.dto.UserDTO;
 import com.example.restful_topic4.enums.UserStatus;
 import com.example.restful_topic4.request.SignUpReq;
-import com.example.restful_topic4.service.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.restful_topic4.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,11 @@ import java.util.UUID;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 
-  @Autowired
-  private UserService<UserDTO> userService;
+  private final UserService<UserDTO> userService;
 
   @GetMapping("/")
   public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -59,7 +59,7 @@ public class UserController {
     UserDTO result = userService.replaceUser(id, user);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
-  
+
   @PatchMapping("/{id}/status")
   public ResponseEntity<?> updateUserStatus(
       @PathVariable("id") UUID id,
@@ -76,7 +76,4 @@ public class UserController {
     userService.delete(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
-  //note........
-
 }

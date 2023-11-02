@@ -1,4 +1,4 @@
-package com.example.restful_topic4.service.interfaces;
+package com.example.restful_topic4.service;
 
 import com.example.restful_topic4.enums.UserStatus;
 import com.example.restful_topic4.request.SignUpReq;
@@ -13,7 +13,7 @@ public interface UserService<T> {
   T getById(UUID id);
 
   T signup(SignUpReq user);
-  
+
   T addUser(T user);
 
   T replaceUser(UUID id, T user);

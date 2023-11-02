@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Configuration
-@EnableMongoAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
+//@EnableMongoAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
 public class UtilsConfig {
 
   @Bean
@@ -31,8 +31,8 @@ public class UtilsConfig {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean(name = "auditingDateTimeProvider")
-  public DateTimeProvider dateTimeProvider() {
-    return () -> Optional.of(OffsetDateTime.now());
-  }
+//  @Bean(name = "auditingDateTimeProvider")
+//  public DateTimeProvider dateTimeProvider() {
+//    return () -> Optional.of(OffsetDateTime.now());
+//  }
 }

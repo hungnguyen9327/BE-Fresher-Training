@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface UserService<T> {
 
@@ -13,7 +12,7 @@ public interface UserService<T> {
 
   List<T> getAll();
 
-  Page<T> findAllByPage(int min, int max, Pageable pageable);
+  Page<T> getAllByPage(Pageable pageable);
 
   T create(SignInReq data);
 

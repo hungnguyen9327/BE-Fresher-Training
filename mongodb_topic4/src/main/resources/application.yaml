@@ -30,4 +30,4 @@ logging:
       springframework: INFO
 
 min-page: 0
-max-page: 3
+max-page: 25

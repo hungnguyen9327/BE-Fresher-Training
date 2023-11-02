@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SortField {
-  ID("id"),
+  ID("_id"),
   USERNAME("name"),
   EMAIL("email"),
   STATUS("status");

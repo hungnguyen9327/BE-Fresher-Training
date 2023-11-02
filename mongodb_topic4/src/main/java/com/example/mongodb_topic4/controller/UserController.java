@@ -4,7 +4,9 @@ import com.example.mongodb_topic4.dto.UserDTO;
 import com.example.mongodb_topic4.model.SortField;
 import com.example.mongodb_topic4.request.SignInReq;
 import com.example.mongodb_topic4.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,28 +21,20 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 
-  @Value("${max-page}")
-  private int maxPage;
-  @Value("${min-page}")
-  private int minPage;
-  UserService<UserDTO> userService;
-
-
-  public UserController(UserService<UserDTO> userService) {
-    this.userService = userService;
-  }
+  private final UserService<UserDTO> userService;
 
   @GetMapping("/")
   public ResponseEntity<List<UserDTO>> getAllUsers() {
-    return new ResponseEntity<List<UserDTO>>(userService.getAll(), HttpStatus.OK);
+    return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
   }
 
   @GetMapping("/paging")
   public Page<UserDTO> getAllByPage(
-      @RequestParam(required = false/*, defaultValue="0"*/) Integer page,
+      @RequestParam(required = false/*, defaultValue="0"*/) @Min(0) @Max(25) Integer page,
       @RequestParam(required = false/*, defaultValue="2"*/) Integer sizePerPage,
       @RequestParam(required = false/*, defaultValue="ID"*/) SortField sortField,
       @RequestParam(required = false/*, defaultValue="DESC"*/) Sort.Direction sortDirection) {
@@ -50,24 +44,24 @@ public class UserController {
         sortDirection == null ? Direction.ASC : sortDirection,
         sortField == null ? SortField.ID.getDatabaseFieldName() : sortField.getDatabaseFieldName()
     );
-    return userService.findAllByPage(minPage, maxPage, pageable);
+    return userService.getAllByPage(pageable);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<UserDTO> getUserById(@PathVariable("id") String id) {
-    return new ResponseEntity<UserDTO>(userService.getById(id), HttpStatus.OK);
+    return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
   }
 
   @PostMapping("/")
   public ResponseEntity<UserDTO> createUser(@RequestBody SignInReq data) throws URISyntaxException {
-    return new ResponseEntity<UserDTO>(userService.create(data), HttpStatus.CREATED);
+    return new ResponseEntity<>(userService.create(data), HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<UserDTO> updateUser(
       @PathVariable("id") String id,
       @RequestBody UserDTO data) throws URISyntaxException {
-    return new ResponseEntity<UserDTO>(userService.update(id, data), HttpStatus.CREATED);
+    return new ResponseEntity<>(userService.update(id, data), HttpStatus.CREATED);
   }
 
   @DeleteMapping("/{id}")
