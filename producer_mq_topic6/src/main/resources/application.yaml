@@ -8,13 +8,33 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: '<rabbitmq username>'
-    password: '<rabbitmq password>'
+    username: guest
+    password: guest
+
+#    template:
+#      retry:
+#        enabled: false
+#        initial-interval: 3s
+#        max-attempts: 3
+#        max-interval: 10s
+#        multiplier: 2
 
 rabbitmq:
   exchange:
-    name: demo_exchange
+    dead-letter-exchange: dead_letter_exchange
+    delay-exchange: delay_exchange
+    retry-exchange: retry_exchange
+    main-exchange: demo_exchange
   queue:
-    name: demo
+    dead-letter-queue: dead_letter_queue
+    delay-queue: delay_queue
+    retry-queue: retry_queue
+    main-queue: demo_queue
   routing:
-    key: demo_routing_key
+    dead-letter-key: dead_letter_key
+    delay-key: delay_routing_key
+    retry-key: retry_routing_key
+    main-key: demo_routing_key
+  retry:
+    delay-in-ms: 1000
+    count: 3
