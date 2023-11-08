@@ -10,34 +10,35 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
- * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
- * found.
+ * Filters incoming requests and installs a Spring Security principal if a header corresponding to a
+ * valid user is found.
  */
 public class JWTFilter implements WebFilter {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+  public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private final TokenProvider tokenProvider;
+  private final TokenProvider tokenProvider;
+    
+  public JWTFilter(TokenProvider tokenProvider) {
+    this.tokenProvider = tokenProvider;
+  }
 
-    public JWTFilter(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    String jwt = resolveToken(exchange.getRequest());
+    if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
+      Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+      return chain.filter(exchange)
+          .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
     }
+    return chain.filter(exchange);
+  }
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String jwt = resolveToken(exchange.getRequest());
-        if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(jwt);
-            return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
-        }
-        return chain.filter(exchange);
+  private String resolveToken(ServerHttpRequest request) {
+    String bearerToken = request.getHeaders().getFirst(AUTHORIZATION_HEADER);
+    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+      return bearerToken.substring(7);
     }
-
-    private String resolveToken(ServerHttpRequest request) {
-        String bearerToken = request.getHeaders().getFirst(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
+    return null;
+  }
 }

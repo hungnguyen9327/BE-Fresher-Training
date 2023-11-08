@@ -23,31 +23,34 @@ import tech.jhipster.config.JHipsterProperties;
 @Configuration
 public class WebConfigurer implements WebFluxConfigurer {
 
-    private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
+  private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
-    private final JHipsterProperties jHipsterProperties;
+  private final JHipsterProperties jHipsterProperties;
 
-    public WebConfigurer(JHipsterProperties jHipsterProperties) {
-        this.jHipsterProperties = jHipsterProperties;
+  public WebConfigurer(JHipsterProperties jHipsterProperties) {
+    this.jHipsterProperties = jHipsterProperties;
+  }
+
+  @Bean
+  public CorsWebFilter corsFilter() {
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = jHipsterProperties.getCors();
+    if (!CollectionUtils.isEmpty(config.getAllowedOrigins()) || !CollectionUtils.isEmpty(
+        config.getAllowedOriginPatterns())) {
+      log.debug("Registering CORS filter");
+      source.registerCorsConfiguration("/api/**", config);
+      source.registerCorsConfiguration("/management/**", config);
+      source.registerCorsConfiguration("/v3/api-docs", config);
+      source.registerCorsConfiguration("/swagger-ui/**", config);
     }
+    return new CorsWebFilter(source);
+  }
 
-    @Bean
-    public CorsWebFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = jHipsterProperties.getCors();
-        if (!CollectionUtils.isEmpty(config.getAllowedOrigins()) || !CollectionUtils.isEmpty(config.getAllowedOriginPatterns())) {
-            log.debug("Registering CORS filter");
-            source.registerCorsConfiguration("/api/**", config);
-            source.registerCorsConfiguration("/management/**", config);
-            source.registerCorsConfiguration("/v3/api-docs", config);
-            source.registerCorsConfiguration("/swagger-ui/**", config);
-        }
-        return new CorsWebFilter(source);
-    }
-
-    @Bean
-    @Order(-2) // The handler must have precedence over WebFluxResponseStatusExceptionHandler and Spring Boot's ErrorWebExceptionHandler
-    public WebExceptionHandler problemExceptionHandler(ObjectMapper mapper, ProblemHandling problemHandling) {
-        return new ProblemExceptionHandler(mapper, problemHandling);
-    }
+  @Bean
+  @Order(-2)
+  // The handler must have precedence over WebFluxResponseStatusExceptionHandler and Spring Boot's ErrorWebExceptionHandler
+  public WebExceptionHandler problemExceptionHandler(ObjectMapper mapper,
+      ProblemHandling problemHandling) {
+    return new ProblemExceptionHandler(mapper, problemHandling);
+  }
 }

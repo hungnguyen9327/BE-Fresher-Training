@@ -9,7 +9,7 @@ import tech.jhipster.config.JHipsterConstants;
 @Profile("!" + JHipsterConstants.SPRING_PROFILE_PRODUCTION)
 public class ReactorConfiguration {
 
-    public ReactorConfiguration() {
-        Hooks.onOperatorDebug();
-    }
+  public ReactorConfiguration() {
+    Hooks.onOperatorDebug();
+  }
 }

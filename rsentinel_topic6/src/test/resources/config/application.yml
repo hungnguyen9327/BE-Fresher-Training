@@ -13,14 +13,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-mongock:
-  migration-scan-package:
-    - com.example.rsentinel.config.dbmigrations
-  mongo-db:
-    read-concern: local
-    write-concern:
-      journal: false
-
 spring:
   application:
     name: rsentinel_topic6
@@ -33,6 +25,10 @@ spring:
     allow-bean-definition-overriding: true
   messages:
     basename: i18n/messages
+  security:
+    user:
+      name: test
+      password: test
   task:
     execution:
       thread-name-prefix: rsentinel-topic-6-task-
@@ -74,7 +70,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: NDk1NjYwOGJjN2Y2NWRhZWIyOTc0YzJiMDA2NTRkMzk3MzI1ZDM2MzA0ZGJkZTA0NGI2NjczMGViNDRlMWU2YzE0ZGM1NTQyNDFiZTljNzRkMDgwMzczYjBmNTBhM2RiZGM3NWNlYzAzM2U0OGIwODg2ZDAzMjkzNTc3ODJiOGE=
+        base64-secret: MjJhMjVjOWI2ZTU3ZDNiNTA5MWI0MzMwZWZiMmQ1MGE0ZGU5ZDYwYzZiMDMzY2Q0Y2ZkMjEzYTk1ZTQ5NDg1YzllOWU5ODU4MmUwYzU3YWY2MTlhNTU2YWY0N2E0YjA0OTY4YjZmNTY5NWM2ZjBmNWE4YmI4MTg0OWI1MzMxNWM=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 

@@ -1,14 +1,11 @@
 package com.example.rsentinel.web.rest;
 
 import com.example.rsentinel.IntegrationTest;
-import com.example.rsentinel.domain.User;
-import com.example.rsentinel.repository.UserRepository;
 import com.example.rsentinel.web.rest.vm.LoginVM;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 /**
@@ -19,26 +16,12 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 class UserJWTControllerIT {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private WebTestClient webTestClient;
 
     @Test
     void testAuthorize() throws Exception {
-        User user = new User();
-        user.setLogin("user-jwt-controller");
-        user.setEmail("user-jwt-controller@example.com");
-        user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
-
-        userRepository.save(user).block();
-
         LoginVM login = new LoginVM();
-        login.setUsername("user-jwt-controller");
+        login.setUsername("test");
         login.setPassword("test");
         webTestClient
             .post()
@@ -57,16 +40,8 @@ class UserJWTControllerIT {
 
     @Test
     void testAuthorizeWithRememberMe() throws Exception {
-        User user = new User();
-        user.setLogin("user-jwt-controller-remember-me");
-        user.setEmail("user-jwt-controller-remember-me@example.com");
-        user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
-
-        userRepository.save(user).block();
-
         LoginVM login = new LoginVM();
-        login.setUsername("user-jwt-controller-remember-me");
+        login.setUsername("test");
         login.setPassword("test");
         login.setRememberMe(true);
         webTestClient

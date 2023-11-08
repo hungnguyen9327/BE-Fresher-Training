@@ -20,6 +20,20 @@ spring:
   config:
     activate:
       on-profile: '!api-docs'
+
+  # Redis sentinel nodes information config:
+  data:
+    redis:
+      password: redispassword
+      sentinel:
+        master: mymaster
+        nodes:
+          - 127.0.0.1:26379
+          - 127.0.0.1:26380
+          - 127.0.0.1:26381
+      lettuce:
+        shutdown-timeout: 200ms
+
 springdoc:
   api-docs:
     enabled: false
@@ -30,7 +44,7 @@ management:
       base-path: /management
       exposure:
         include:
-          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump']
+          [ 'configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump' ]
   endpoint:
     health:
       show-details: when_authorized
@@ -77,10 +91,6 @@ management:
           autotime:
             enabled: true
 
-mongock:
-  migration-scan-package:
-    - com.example.rsentinel.config.dbmigrations
-
 spring:
   application:
     name: rsentinel_topic6
@@ -101,6 +111,13 @@ spring:
     basename: i18n/messages
   main:
     allow-bean-definition-overriding: true
+  security:
+    user:
+      name: admin
+      password: admin
+      roles:
+        - ADMIN
+        - USER
   task:
     execution:
       thread-name-prefix: rsentinel-topic-6-task-
@@ -174,3 +191,9 @@ jhipster:
 # ===================================================================
 
 # application:
+
+redis:
+  master:
+    host: localhost
+    port: 6379
+  replicas: localhost:6380, localhost:6381

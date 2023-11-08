@@ -5,6 +5,7 @@ import static org.springframework.security.web.server.util.matcher.ServerWebExch
 import com.example.rsentinel.security.AuthoritiesConstants;
 import com.example.rsentinel.security.jwt.JWTFilter;
 import com.example.rsentinel.security.jwt.TokenProvider;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
@@ -14,14 +15,16 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.header.ReferrerPolicyServerHttpHeadersWriter;
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter.Mode;
 import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher;
+import org.springframework.util.StringUtils;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport;
 import tech.jhipster.config.JHipsterProperties;
@@ -31,84 +34,79 @@ import tech.jhipster.config.JHipsterProperties;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration {
 
-    private final JHipsterProperties jHipsterProperties;
+  private final JHipsterProperties jHipsterProperties;
 
-    private final ReactiveUserDetailsService userDetailsService;
+  private final TokenProvider tokenProvider;
 
-    private final TokenProvider tokenProvider;
+  private final SecurityProblemSupport problemSupport;
+  private final CorsWebFilter corsWebFilter;
 
-    private final SecurityProblemSupport problemSupport;
-    private final CorsWebFilter corsWebFilter;
+  public SecurityConfiguration(
+      TokenProvider tokenProvider,
+      JHipsterProperties jHipsterProperties,
+      SecurityProblemSupport problemSupport,
+      CorsWebFilter corsWebFilter
+  ) {
+    this.tokenProvider = tokenProvider;
+    this.jHipsterProperties = jHipsterProperties;
+    this.problemSupport = problemSupport;
+    this.corsWebFilter = corsWebFilter;
+  }
 
-    public SecurityConfiguration(
-        ReactiveUserDetailsService userDetailsService,
-        TokenProvider tokenProvider,
-        JHipsterProperties jHipsterProperties,
-        SecurityProblemSupport problemSupport,
-        CorsWebFilter corsWebFilter
-    ) {
-        this.userDetailsService = userDetailsService;
-        this.tokenProvider = tokenProvider;
-        this.jHipsterProperties = jHipsterProperties;
-        this.problemSupport = problemSupport;
-        this.corsWebFilter = corsWebFilter;
-    }
+  @Bean
+  public MapReactiveUserDetailsService userDetailsService(SecurityProperties properties) {
+    SecurityProperties.User user = properties.getUser();
+    UserDetails userDetails = User
+        .withUsername(user.getName())
+        .password("{noop}" + user.getPassword())
+        .roles(StringUtils.toStringArray(user.getRoles()))
+        .build();
+    return new MapReactiveUserDetailsService(userDetails);
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public ReactiveAuthenticationManager reactiveAuthenticationManager(
+      ReactiveUserDetailsService userDetailsService) {
+    return new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
+  }
 
-    @Bean
-    public ReactiveAuthenticationManager reactiveAuthenticationManager() {
-        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(
-            userDetailsService
-        );
-        authenticationManager.setPasswordEncoder(passwordEncoder());
-        return authenticationManager;
-    }
-
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        // @formatter:off
-        http
-            .securityMatcher(new NegatedServerWebExchangeMatcher(new OrServerWebExchangeMatcher(
-                pathMatchers("/app/**", "/_app/**", "/i18n/**", "/img/**", "/content/**", "/swagger-ui/**", "/v3/api-docs/**", "/test/**"),
-                pathMatchers(HttpMethod.OPTIONS, "/**")
-            )))
-            .csrf()
-                .disable()
-            .addFilterBefore(corsWebFilter, SecurityWebFiltersOrder.REACTOR_CONTEXT)
-            .addFilterAt(new JWTFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
-            .authenticationManager(reactiveAuthenticationManager())
-            .exceptionHandling()
-                .accessDeniedHandler(problemSupport)
-                .authenticationEntryPoint(problemSupport)
-        .and()
-            .headers()
-                .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
-            .and()
-                .referrerPolicy(ReferrerPolicyServerHttpHeadersWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-            .and()
-                .permissionsPolicy().policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
-            .and()
-                .frameOptions().mode(Mode.DENY)
-        .and()
-            .authorizeExchange()
-            .pathMatchers("/api/authenticate").permitAll()
-            .pathMatchers("/api/register").permitAll()
-            .pathMatchers("/api/activate").permitAll()
-            .pathMatchers("/api/account/reset-password/init").permitAll()
-            .pathMatchers("/api/account/reset-password/finish").permitAll()
-            .pathMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .pathMatchers("/api/**").authenticated()
-            .pathMatchers("/services/**").authenticated()
-            .pathMatchers("/management/health").permitAll()
-            .pathMatchers("/management/health/**").permitAll()
-            .pathMatchers("/management/info").permitAll()
-            .pathMatchers("/management/prometheus").permitAll()
-            .pathMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
+  @Bean
+  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    // @formatter:off
+      http
+          .securityMatcher(new NegatedServerWebExchangeMatcher(new OrServerWebExchangeMatcher(
+              pathMatchers("/app/**", "/_app/**", "/i18n/**", "/img/**", "/content/**", "/swagger-ui/**", "/v3/api-docs/**", "/test/**"),
+              pathMatchers(HttpMethod.OPTIONS, "/**")
+          )))
+          .csrf()
+          .disable()
+          .addFilterBefore(corsWebFilter, SecurityWebFiltersOrder.REACTOR_CONTEXT)
+          .addFilterAt(new JWTFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
+          .exceptionHandling()
+          .accessDeniedHandler(problemSupport)
+          .authenticationEntryPoint(problemSupport)
+          .and()
+          .headers()
+          .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
+          .and()
+          .referrerPolicy(ReferrerPolicyServerHttpHeadersWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+          .and()
+          .permissionsPolicy().policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
+          .and()
+          .frameOptions().mode(Mode.DENY)
+          .and()
+          .authorizeExchange()
+          .pathMatchers("/**").permitAll();
+//            .pathMatchers("/api/authenticate").permitAll();
+//            .pathMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+//            .pathMatchers("/api/**").authenticated()
+//            .pathMatchers("/services/**").authenticated()
+//            .pathMatchers("/management/health").permitAll()
+//            .pathMatchers("/management/health/**").permitAll()
+//            .pathMatchers("/management/info").permitAll()
+//            .pathMatchers("/management/prometheus").permitAll()
+//            .pathMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
         // @formatter:on
-        return http.build();
-    }
+    return http.build();
+  }
 }

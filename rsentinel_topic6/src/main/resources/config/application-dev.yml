@@ -30,15 +30,6 @@ spring:
   jackson:
     serialization:
       indent-output: true
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/?waitQueueMultiple=1000
-      database: rsentinel_topic6
-  mail:
-    host: localhost
-    port: 25
-    username:
-    password:
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -69,12 +60,10 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: NDk1NjYwOGJjN2Y2NWRhZWIyOTc0YzJiMDA2NTRkMzk3MzI1ZDM2MzA0ZGJkZTA0NGI2NjczMGViNDRlMWU2YzE0ZGM1NTQyNDFiZTljNzRkMDgwMzczYjBmNTBhM2RiZGM3NWNlYzAzM2U0OGIwODg2ZDAzMjkzNTc3ODJiOGE=
+        base64-secret: MjJhMjVjOWI2ZTU3ZDNiNTA5MWI0MzMwZWZiMmQ1MGE0ZGU5ZDYwYzZiMDMzY2Q0Y2ZkMjEzYTk1ZTQ5NDg1YzllOWU5ODU4MmUwYzU3YWY2MTlhNTU2YWY0N2E0YjA0OTY4YjZmNTY5NWM2ZjBmNWE4YmI4MTg0OWI1MzMxNWM=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
-  mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8080
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
