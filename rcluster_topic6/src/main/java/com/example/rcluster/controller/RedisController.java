@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class RedisController {
 
   private final RedisService redisService;
+
+  public RedisController(RedisService redisService) {
+    this.redisService = redisService;
+  }
 
   @PostMapping(path = {"/", ""})
   public User cacheUser(@RequestBody User user) {

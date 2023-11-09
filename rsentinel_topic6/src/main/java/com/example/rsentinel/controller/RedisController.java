@@ -17,10 +17,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/redis")
-@RequiredArgsConstructor
 public class RedisController {
 
   private final RedisService redisService;
+
+  public RedisController(RedisService redisService) {
+    this.redisService = redisService;
+  }
 
   @PostMapping(path = {"/", ""})
   public ResponseEntity<?> addRedisKeyValue(@RequestBody RedisRequest redisRequest) {

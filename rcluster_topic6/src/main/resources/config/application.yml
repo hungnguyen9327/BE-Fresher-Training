@@ -30,7 +30,7 @@ management:
       base-path: /management
       exposure:
         include:
-          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump']
+          [ 'configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump' ]
   endpoint:
     health:
       show-details: when_authorized
@@ -99,8 +99,8 @@ spring:
     allow-bean-definition-overriding: true
   security:
     user:
-      name: admin
-      password: admin
+      name: '${SECURITY_DEFAULT_USERNAME}'
+      password: '${SECURITY_DEFAULT_PASSWORD}'
       roles:
         - ADMIN
         - USER

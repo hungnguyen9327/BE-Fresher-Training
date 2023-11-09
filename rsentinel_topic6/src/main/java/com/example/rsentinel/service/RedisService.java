@@ -7,14 +7,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class RedisService {
 
   private final RedisUtil<String> redisStringUtil;
 
+  public RedisService(RedisUtil<String> redisStringUtil) {
+    this.redisStringUtil = redisStringUtil;
+  }
+
   public void addRedis(RedisRequest request) {
-    redisStringUtil.putValue(request.getKey(), request.getValue());
-    redisStringUtil.setExpire(request.getKey(), request.getExpireMinutes(), TimeUnit.MINUTES);
+//    redisStringUtil.putValue(request.getKey(), request.getValue());
+//    redisStringUtil.setExpire(request.getKey(), request.getExpireMinutes(), TimeUnit.MINUTES);
   }
 
   public String getValue(String key) {
