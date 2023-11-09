@@ -1,0 +1,41 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: topic6db
+
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 8
+    cache:
+      type: redis
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: '<rabbitmq username>'
+    password: '<rabbitmq password>'
+
+hibernate:
+  ogm:
+    datastore:
+      provider: MONGODB
+      create_database: 'true'
+      database: hike_db
+
+rabbitmq:
+  queue:
+    name: demo
