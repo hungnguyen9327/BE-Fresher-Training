@@ -1,0 +1,47 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: topic5db
+      uuid-representation: standard
+#      auto-index-creation: 'true'
+#      authentication-database: 'admin'
+#      connections-per-host: '8'
+#      socket-timeout: '300000'
+#      max-wait-time: '120000'
+#      ssl:
+#        enabled: 'false'
+#        invalid-hostname-allowed: 'false'
+
+hibernate:
+  ogm:
+    datastore:
+      provider: MONGODB
+      create_database: 'true'
+      database: hike_db
+
+#Logging
+logging:
+  level:
+    com:
+      ecommerce: DEBUG
+#    org:
+#      springframework: INFO
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+demo:
+  security:
+    jwtSecret: 'daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb'
+    jwtExpirationMs: 86400000
+    jwtRefreshExpirationMs: 604800000
+
+application:
+  async:
+    core-pool-size: 10
+    max-pool-size: 200
+    queue-capacity: 10000
