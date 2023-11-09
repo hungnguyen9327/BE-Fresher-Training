@@ -1,0 +1,39 @@
+{
+    "_id" : ObjectId("6538cbd113a71f741bd34097"),
+    "name" : "ROLE_ADMIN",
+    "createdAt" : ISODate("2023-10-25T08:03:29.857+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:03:29.857+0000"),
+    "permissions" : [
+        DBRef("permissions", ObjectId("6538cb8713a71f741bd34096")),
+        DBRef("permissions", ObjectId("6538cb8413a71f741bd34095")),
+        DBRef("permissions", ObjectId("6538cb7713a71f741bd34091")),
+        DBRef("permissions", ObjectId("6538cb6713a71f741bd34090")),
+        DBRef("permissions", ObjectId("6538cb7d13a71f741bd34093")),
+        DBRef("permissions", ObjectId("6538cb8013a71f741bd34094")),
+        DBRef("permissions", ObjectId("6538cb7a13a71f741bd34092"))
+    ],
+    "_class" : "com.example.security_topic5.model.Role"
+}
+{
+    "_id" : ObjectId("6538cbe213a71f741bd34098"),
+    "name" : "ROLE_MANAGER",
+    "createdAt" : ISODate("2023-10-25T08:03:46.936+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:03:46.936+0000"),
+    "permissions" : [
+        DBRef("permissions", ObjectId("6538cb7713a71f741bd34091")),
+        DBRef("permissions", ObjectId("6538cb6713a71f741bd34090")),
+        DBRef("permissions", ObjectId("6538cb7d13a71f741bd34093")),
+        DBRef("permissions", ObjectId("6538cb7a13a71f741bd34092"))
+    ],
+    "_class" : "com.example.security_topic5.model.Role"
+}
+{
+    "_id" : ObjectId("6538cc1713a71f741bd3409a"),
+    "name" : "ROLE_USER",
+    "createdAt" : ISODate("2023-10-25T08:04:39.057+0000"),
+    "updatedAt" : ISODate("2023-10-25T08:04:39.057+0000"),
+    "permissions" : [
+        DBRef("permissions", ObjectId("6538cb6713a71f741bd34090"))
+    ],
+    "_class" : "com.example.security_topic5.model.Role"
+}
