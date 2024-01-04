@@ -54,7 +54,7 @@ jobs:
                   # Optional (recommended) mail server username:
                   username: nguyenhung12c1@gmail.com
                   # Optional (recommended) mail server password:
-                  password: Hung27122001
+                  password: hung123456789
                   # Required mail subject:
                   subject: TEST ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
                   # Required recipients' addresses:
