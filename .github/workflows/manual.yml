@@ -43,7 +43,7 @@ jobs:
                   name: RunReports_${{matrix.collection.num}}
                   path: path/to/artifact/world_${{matrix.collection.num}}.txt
 
-            - id: step${{matrix.collection.num}}
+            - id: 'step${{matrix.collection.num}}'
               name: Set artifact URL
               run: echo 'url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}'  >> "$GITHUB_OUTPUT"
 
