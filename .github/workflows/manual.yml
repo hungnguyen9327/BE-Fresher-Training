@@ -44,4 +44,4 @@ jobs:
               run: echo "url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
 
             - name: Output artifact URL
-              run:  echo '${{url}}'
+              run:  echo '$url'
