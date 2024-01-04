@@ -30,7 +30,7 @@ jobs:
                 collection: [{ "num": "1" }, { "num": "2" }, { "num": "3" }]
 
         outputs:
-          output${{matrix.collection.num}}: ${{ steps.step1.outputs.url }}
+          output: ${{ steps.step1.outputs.url }}
         
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
@@ -52,7 +52,7 @@ jobs:
         needs: [greet]
         steps:
           - name: Print artifact URL
-            run: echo ${{ needs.greet.outputs.output1 }}
+            run: echo ${{ needs.greet.outputs.output }}
 
           # - uses: actions/download-artifact@v4
           #   id: download
