@@ -45,7 +45,7 @@ jobs:
 
     send-mail:
         runs-on: ubuntu-latest
-        need: [greet]
+        needs: [greet]
         steps:
           - uses: actions/download-artifact@v4
             with:
