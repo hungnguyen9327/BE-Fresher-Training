@@ -70,3 +70,34 @@ jobs:
                           - [RunReport_3](${{ env.Artifact_3 }})
                   # Optional priority: 'high', 'normal' (default) or 'low'
                   priority: normal
+
+    send-mail:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Send mail
+            uses: dawidd6/action-send-mail@v3
+            with:
+                server_address: smtp.gmail.com
+                # Server port, default 25:
+                server_port: 465
+                # Optional whether this connection use TLS (default is true if server_port is 465)
+                secure: true
+                # Optional (recommended) mail server username:
+                username: nguyenhung12c1@gmail.com
+                # Optional (recommended) mail server password:
+                password: ufqo hkyb maub vhjq
+                # Required mail subject:
+                subject: TEST ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+                # Required recipients' addresses:
+                to: sieupha2712@gmail.com
+                # Required sender full name (address can be skipped):
+                from: nguyenhung12c1@gmail.com
+                body: |
+                    ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+                    GitHub repository: ${{ github.repository }}
+                    Links to the HTML files:
+                        - [RunReport_1](${{ env.Artifact_1 }})
+                        - [RunReport_2](${{ env.Artifact_2 }})
+                        - [RunReport_3](${{ env.Artifact_3 }})
+                # Optional priority: 'high', 'normal' (default) or 'low'
+                priority: normal
