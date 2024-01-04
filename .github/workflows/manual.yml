@@ -27,7 +27,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                collection: [{ "num": 1 }, { "num": 2 }, { "num": 3 }]
+                collection: [{ "num": "1" }, { "num": "2" }, { "num": "3" }]
         
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
