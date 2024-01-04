@@ -1,0 +1,47 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+    workflow_dispatch:
+        # Inputs the workflow accepts.
+        inputs:
+            name:
+                # Friendly description to be shown in the UI instead of 'name'
+                description: 'Person to greet'
+                # Default value if no value is explicitly provided
+                default: 'World'
+                # Input has to be provided for the workflow to run
+                required: true
+                # The data type of the input
+                type: string
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    # This workflow contains a single job called "greet"
+    greet:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                collection: [{ "num": 1 }, { "num": 2 }, { "num": 3 }]
+        
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            - run: mkdir -p path/to/artifact
+            - run: echo hello > path/to/artifact/world_${{matrix.collection.num}}.txt
+            - name: Output the run Details
+              uses: actions/upload-artifact@v4
+              id: artifact-upload-step
+              with:
+                  name: RunReports_${{matrix.collection.num}}
+                  path: path/to/artifact/world_${{matrix.collection.num}}.txt
+
+            - name: Set artifact URL
+              run: echo "Artifact_${{ matrix.collection.collectionName }}=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
+
+            - name: Output artifact URL
+              run:  echo '${{Artifact_1}}, ${{Artifact_2}}, ${{Artifact_3}}'
