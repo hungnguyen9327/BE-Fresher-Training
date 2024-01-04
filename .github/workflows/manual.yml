@@ -24,9 +24,9 @@ jobs:
                 collection: [{ "num": "1" }, { "num": "2" }, { "num": "3" }]
 
         outputs:
-          output1: ${{ steps.step1.outputs.url }}
-          output2: ${{ steps.step2.outputs.url }}
-          output3: ${{ steps.step3.outputs.url }}
+          output1: ${{ steps.step_1.outputs.url }}
+          output2: ${{ steps.step_2.outputs.url }}
+          output3: ${{ steps.step_3.outputs.url }}
         
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
@@ -40,7 +40,7 @@ jobs:
                   path: path/to/artifact/world_${{matrix.collection.num}}.txt
 
             - name: Set artifact URL
-              id: step${{matrix.collection.num}}
+              id: step_${{ matrix.collection.num }}
               run: echo 'url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}'  >> "$GITHUB_OUTPUT"
 
     send-mail:
