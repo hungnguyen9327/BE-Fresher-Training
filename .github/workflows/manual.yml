@@ -47,7 +47,12 @@ jobs:
         needs: [greet]
         steps:
           - name: Print artifact URL
-            run: echo ${{ needs.greet.outputs.output1 }}
+            run: |
+              ARTIFACT_URLS="${{ needs.greet.outputs.output1 }}"
+              UNIQUE_ARTIFACT_URLS=($(echo "${ARTIFACT_URLS}" | tr ' ' '\n' | sort -u))
+              UNIQUE_ARTIFACT_URL="${UNIQUE_ARTIFACT_URLS[@]}"
+              echo "Unique Artifact URLs: ${UNIQUE_ARTIFACT_URL}"
+            shell: bash
 
           # - uses: actions/download-artifact@v4
           #   id: download
