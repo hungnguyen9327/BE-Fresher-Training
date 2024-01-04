@@ -65,8 +65,8 @@ jobs:
                       ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
                       GitHub repository: ${{ github.repository }}
                       Links to the HTML files:
-                          - [RunReport_${{ matrix.collection.num1 }}](${{ env.Artifact_1 }})
-                          - [RunReport_${{ matrix.collection.num2 }}](${{ env.Artifact_2 }})
-                          - [RunReport_${{ matrix.collection.num3 }}](${{ env.Artifact_3 }})
+                          - [RunReport_1](${{ env.Artifact_1 }})
+                          - [RunReport_2](${{ env.Artifact_2 }})
+                          - [RunReport_3](${{ env.Artifact_3 }})
                   # Optional priority: 'high', 'normal' (default) or 'low'
                   priority: normal
