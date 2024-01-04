@@ -40,21 +40,25 @@ jobs:
                   name: RunReports_${{matrix.collection.num}}
                   path: path/to/artifact/world_${{matrix.collection.num}}.txt
 
-            # - name: Set artifact URL
-            #   run: echo "Artifact_${{matrix.collection.num}}=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
+            - name: Set artifact URL
+              run: echo "Artifact_${{matrix.collection.num}}=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
 
     send-mail:
         runs-on: ubuntu-latest
         needs: [greet]
         steps:
-          - uses: actions/download-artifact@v4
-            id: download
-            with:
-              path: path/to/artifact
-          - name: Use Artifacts
-            run: |
-              echo "Downloaded artifact URLs:"
-              echo "${{ steps.download.outputs.download-path }}"
+          - name: Print artifact URL
+            run: echo ${{ env.Artifact_1 }} ${{ env.Artifact_2 }} ${{ env.Artifact_3 }}
+
+          # - uses: actions/download-artifact@v4
+          #   id: download
+          #   with:
+          #     path: path/to/artifact
+          # - name: Use Artifacts
+          #   run: |
+          #     echo "Downloaded artifact URLs:"
+          #     echo "${{ steps.download.outputs.download-path }}"
+
           # - name: Send mail
           #   uses: dawidd6/action-send-mail@v3
           #   with:
