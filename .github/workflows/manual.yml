@@ -44,4 +44,4 @@ jobs:
               run: echo "Artifact_${{matrix.collection.num}}=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
 
             - name: Output artifact URL
-              run: echo '${{ env.Artifact_1 }}, ${{ env.Artifact_2 }}, ${{ env.Artifact_3 }}'
+              run: echo '${{ env.Artifact_1 }} ${{ env.Artifact_2 }} ${{ env.Artifact_3 }}'
