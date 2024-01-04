@@ -1,0 +1,20 @@
+name: Regression Test
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    test-api:
+        # Ubuntu GitHub-hosted virtual machine.
+        runs-on: self-hosted
+        steps:
+            - name: Output the run Details
+              uses: actions/upload-artifact@v4
+              with:
+                  name: RunReports_test
+                  path: path/to/artifact/test.txt
+
+            - name: Output artifact ID
+      	      run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
