@@ -48,12 +48,13 @@ jobs:
         needs: [greet]
         steps:
           - uses: actions/download-artifact@v4
+            id: download
             with:
               path: path/to/artifact
           - name: Use Artifacts
-            run: |
-              echo "Downloaded artifact URLs:"
-              echo "${{ steps.download.outputs.artifacts }}"
+          run: |
+            echo "Downloaded artifact URLs:"
+            echo "${{ steps.download.outputs.artifacts }}"
           # - name: Send mail
           #   uses: dawidd6/action-send-mail@v3
           #   with:
