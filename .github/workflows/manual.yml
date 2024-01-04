@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
             name: RunReports_test
-            path: path/to/artifact/test.txt
+            path: /test.txt
   
       - name: Output artifact ID
         run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
