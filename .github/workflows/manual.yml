@@ -41,6 +41,7 @@ jobs:
                   path: path/to/artifact/world_${{matrix.collection.num}}.txt
 
             - name: Set artifact URL
+              run: echo 'Set artifact URL'
               env:
                 ARTIFACT_${{matrix.collection.num}}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}
 
