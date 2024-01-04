@@ -35,9 +35,9 @@ jobs:
         with:
             name: RunReports_test
             path: path/to/artifact/world.txt
-  
+
       - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+        run:  echo "ARTIFACT_ID=${{ steps.artifact-upload-step.outputs.artifact-url }}" >> $GITHUB_ENV
 
 
 
