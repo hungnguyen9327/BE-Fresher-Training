@@ -35,9 +35,9 @@ jobs:
         with:
             name: RunReports_test
             path: path/to/artifact/world.txt
-  
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+
+      - name: Output artifact URL
+        run:  echo 'Artifact URL is https://github.com/hung9327/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}'
 
 
 
