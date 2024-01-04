@@ -48,7 +48,7 @@ jobs:
         steps:
           - name: Print artifact URL
             run: |
-              echo "${{ needs.greet.outputs.output1 }}
+              echo ${{ needs.greet.outputs.output1 }}
             shell: bash
 
           # - uses: actions/download-artifact@v4
