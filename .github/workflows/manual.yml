@@ -58,7 +58,7 @@ jobs:
                   # Required mail subject:
                   subject: TEST ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
                   # Required recipients' addresses:
-                  to: hung.nguyen02@infodation.vn
+                  to: sieupha2712@gmail.com
                   # Required sender full name (address can be skipped):
                   from: nguyenhung12c1@gmail.com
                   body: |
