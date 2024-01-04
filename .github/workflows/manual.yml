@@ -23,7 +23,7 @@ jobs:
     # This workflow contains a single job called "greet"
     greet:
         # The type of runner that the job will run on
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         strategy:
             fail-fast: false
             matrix:
@@ -41,10 +41,11 @@ jobs:
                   path: path/to/artifact/world_${{matrix.collection.num}}.txt
 
             - name: Set artifact URL
-              run: echo "ARTIFACT_${{matrix.collection.num}}=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
+              env:
+                ARTIFACT_${{matrix.collection.num}}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}
 
     send-mail:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         needs: [greet]
         steps:
           - name: Print artifact URL
