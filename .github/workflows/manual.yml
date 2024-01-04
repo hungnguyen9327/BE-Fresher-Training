@@ -54,7 +54,7 @@ jobs:
           - name: Use Artifacts
             run: |
               echo "Downloaded artifact URLs:"
-              echo "${{ steps.download.outputs.artifacts }}"
+              echo "${{ steps.download.outputs.download-url }}"
           # - name: Send mail
           #   uses: dawidd6/action-send-mail@v3
           #   with:
